@@ -1691,8 +1691,9 @@ status_t AudioHardware::AudioStreamInALSA::setPreProcessorEchoDelay(effect_handl
 
     param->psize = sizeof(uint32_t);
     param->vsize = sizeof(uint32_t);
-    *(uint32_t *)param->data = AEC_PARAM_ECHO_DELAY;
-    *((int32_t *)param->data + 1) = delayUs;
+    uint32_t echoDely = AEC_PARAM_ECHO_DELAY;
+    memcpy(&param->data, &echoDely, sizeof(uint32_t));
+    memcpy((void*)(&param->data) + 1, &delayUs, sizeof(int32_t));
 
     ALOGV("setPreProcessorEchoDelay: %d us", delayUs);
 
